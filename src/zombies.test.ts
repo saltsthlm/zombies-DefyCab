@@ -4,13 +4,13 @@ import { test } from "node:test"
 const createRoom = (capacity: number) => {
   const _capacity = capacity
 
-  if (_capacity === 0) {
-    return {
-      isFull: () => true,
-    }
-  }
   return {
-    isFull: () => false,
+    isFull: () => {
+      if (_capacity === 0) {
+        return true
+      }
+      return false
+    },
   }
 }
 
