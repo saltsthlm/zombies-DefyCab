@@ -3,18 +3,14 @@ import { test } from "node:test"
 
 const createRoom = (capacity: number) => {
   const _capacity = capacity
-  const _zombies = []
+  const _zombies: string[] = []
 
   return {
     isFull: () => {
       if (_capacity === 0) {
         return true
       }
-      return false
-    },
-    numberOfZombies: (total: number) => {
-      _zombies.push(total)
-      if (_zombies.length < _capacity) {
+      if (_capacity > _zombies.length) {
         return true
       }
       return false
@@ -30,7 +26,7 @@ test("room is not full", () => {
   ok(isRoomFull)
 })
 
-test.skip("empty room that fits one zombie is not full", () => {
+test("empty room that fits one zombie is not full", () => {
   const room = createRoom(1)
 
   const emptyRoomNotFull = room.isFull()
