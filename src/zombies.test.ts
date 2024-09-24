@@ -8,7 +8,7 @@ const createRoom = (capacity: number) => {
 
   return {
     isFull: () => {
-      // test case "room is not full"
+      // test case "room is not full" and "two-roomer"
       if (_capacity > _zombies.length) {
         return true
       }
@@ -71,7 +71,15 @@ test("one-roomer becomes full when a zombie is added", () => {
   ok(oneRoomerFull)
 })
 
-test.skip("two-roomer is not full when a zombie is added", () => {})
+test("two-roomer is not full when a zombie is added", () => {
+  const room = createRoom(2)
+
+  room.addZombie("Kohag")
+
+  const twoRoomerNotFull = room.isFull()
+
+  ok(twoRoomerNotFull)
+})
 
 test.skip("second zombie consumes first zombie when added to a one-roomer", () => {})
 
