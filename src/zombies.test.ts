@@ -16,11 +16,18 @@ const createRoom = (capacity: number) => {
       if (_capacity === 1 && _zombies.length === 0) {
         return true
       }
+      // test case "one roomer"
+      if (_capacity === _zombies.length) {
+        return true
+      }
       return false
     },
     addZombie: (zombie: string) => {
       if (_capacity === 0) {
         return
+      }
+      if (_capacity === _zombies.length) {
+        _zombies.splice(1, 0)
       }
       _zombies.push(zombie)
     },
@@ -54,7 +61,15 @@ test("empty room cannot fit any zombies", () => {
   deepEqual(numberOfZombies, [])
 })
 
-test.skip("one-roomer becomes full when a zombie is added", () => {})
+test("one-roomer becomes full when a zombie is added", () => {
+  const room = createRoom(1)
+
+  room.addZombie("Kevin")
+
+  const oneRoomerFull = room.isFull()
+
+  ok(oneRoomerFull)
+})
 
 test.skip("two-roomer is not full when a zombie is added", () => {})
 
