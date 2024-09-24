@@ -8,7 +8,7 @@ const createRoom = (capacity: number) => {
 
   return {
     isFull: () => {
-      // test case "room is not full" and "two-roomer"
+      // test case "room is not full"
       if (_capacity > _zombies.length) {
         return true
       }
@@ -16,7 +16,7 @@ const createRoom = (capacity: number) => {
       if (_capacity === 1 && _zombies.length === 0) {
         return true
       }
-      // test case "one roomer"
+      // test case "one roomer" and "two roomer"
       if (_capacity === _zombies.length) {
         return true
       }
@@ -26,9 +26,11 @@ const createRoom = (capacity: number) => {
       if (_capacity === 0) {
         return
       }
-      if (_capacity === _zombies.length) {
+      if (_capacity === _zombies.length || _capacity < _zombies.length) {
         _zombies.splice(1, 0)
+        return
       }
+
       _zombies.push(zombie)
     },
     getZombies: () => _zombies,
@@ -76,11 +78,23 @@ test("two-roomer is not full when a zombie is added", () => {
 
   room.addZombie("Kohag")
 
+  const z1 = room.getZombies()
+
   const twoRoomerNotFull = room.isFull()
 
   ok(twoRoomerNotFull)
 })
 
-test.skip("second zombie consumes first zombie when added to a one-roomer", () => {})
+test("second zombie consumes first zombie when added to a one-roomer", () => {
+  const room = createRoom(1)
+  // add first zombie
+  room.addZombie("Love")
+  // add second zombie (activates splice of "Love")
+  room.addZombie("Eaterman")
+
+  const consumedZombieRoom = room.isFull()
+
+  ok(consumedZombieRoom)
+})
 
 // You are free to add more tests that you think are relevant!
